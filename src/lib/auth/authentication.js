@@ -23,13 +23,16 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
         .get("/api/user")
         .then((res) => res.data)
         .catch((error) => {
-          if (error.response.status !== 409) throw error;
+          if (error.response.status == 401){
+            navigate({to:'/login'})
+          }
 
-          navigate({ to: `/verify-email`, replace: true });
+          // navigate({ to: `/verify-email`, replace: true });
 
           throw error
         }),
     retry: 1,
+    
   });
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
@@ -73,9 +76,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       const data = await axios.post("api/logout");
         console.log(data,"logout")
     }
-    queryClient.removeQueries();
+     queryClient.removeQueries();
       navigate({ to: "/login", replace: true });
     },
+    
   });
   
 

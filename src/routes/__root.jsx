@@ -3,8 +3,13 @@ import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 
 export const Route = createRootRouteWithContext()({
   component: Root,
-  errorComponent: ({ error }) =>
-  <p>something went wrong reload the page</p>
+  pendingComponent: () => <p>loading...</p>,
+  errorComponent: ({ error }) =>{
+    if(error.response.status === 401)
+    throw redirect({to:"/login"})
+    else
+    return <p>Error occured</p>
+  }
 })
  function Root() {
 

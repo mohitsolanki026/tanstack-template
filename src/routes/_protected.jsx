@@ -5,8 +5,9 @@ import { Outlet, createFileRoute, redirect, } from "@tanstack/react-router"
 
 export const Route = createFileRoute('/_protected')({
     loader: async ({ location, context: { queryClient } }) => protectedfun(location, queryClient),
-
-    component: Protected
+    component: Protected,
+    // pendingComponent: () => <div>Loading...</div>,
+    // errorComponent: () => <div>Error</div>,
 })
 
 function Protected() {
@@ -17,10 +18,14 @@ function Protected() {
     //     redirectIfAuthenticated:"/login"
     //   })
 
-    const { logout } = useAuth({
+    const { logout, isError } = useAuth({
         middleware: "auth",
         redirectIfAuthenticated: "/login"
     })
+
+    if (isError) {
+        return <div>Error</div>
+    }
 
     function handleLogout() {
         logout.mutate()
