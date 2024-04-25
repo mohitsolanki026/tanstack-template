@@ -7,7 +7,6 @@ import {
 } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "../axios";
-// import {setToken} from "./authorization";
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
   const navigate = useNavigate();
@@ -56,8 +55,6 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } = {}) => {
       try {
         const response = await axios.post("api/auth/login", props);
         console.log(response);
-        // const {setToken} = useAuthorization()
-        // setToken(response.data.token)
         navigate({ to: '/', replace: true });
 
       } catch (error) {
